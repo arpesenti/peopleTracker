@@ -1,0 +1,15 @@
+<package>
+  <description brief="people_msg">
+
+     people_msg
+
+  </description>
+  <author>arpesenti</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/people_msg</url>
+  <depend package="std_msgs"/>
+
+</package>
+
+

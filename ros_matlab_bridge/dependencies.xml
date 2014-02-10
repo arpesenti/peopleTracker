@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<project name="dependencies" basedir="."  xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+      xmlns:ac="antlib:net.sf.antcontrib"
+>
+
+  <path id="maven-ant-tasks.classpath" path="/opt/ros/hydro/share/mplab-ros-pkg/rosjava_legacy/rosjava_bootstrap/scripts/maven-ant-tasks-2.1.3.jar" />
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+           uri="antlib:org.apache.maven.artifact.ant"
+           classpathref="maven-ant-tasks.classpath" />
+  <typedef resource="net/sf/antcontrib/antlib.xml"
+           uri="antlib:net.sf.antcontrib"
+           classpath="/opt/ros/hydro/share/mplab-ros-pkg/rosjava_legacy/rosjava_bootstrap/scripts/ant-contrib-1.0b3.jar"/>
+
+  <artifact:dependencies filesetId="dependency.osgi">
+    <artifact:remoteRepository id="org.ros.release" url="http://robotbrains.hideho.org/nexus/content/groups/ros-public" />
+    <artifact:dependency groupId="biz.aQute" artifactId="bnd" version="0.0.384" />
+  </artifact:dependencies>
+
+  <path id="classpath.osgi">
+    <fileset refid="dependency.osgi" />
+  </path>
+
+  <taskdef resource="aQute/bnd/ant/taskdef.properties" classpathref="classpath.osgi" />
+  <artifact:dependencies filesetId="dependency.fileset.compile">
+    <artifact:remoteRepository id="org.ros.release" url="http://robotbrains.hideho.org/nexus/content/groups/ros-public" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.codec" version="1.3.0" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.httpclient" version="3.1.0" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.logging" version="1.1.1" />
+    <artifact:dependency groupId="dnsjava" artifactId="org.ros.rosjava.dnsjava" version="2.1.1" />
+    <artifact:dependency groupId="com.google.guava" artifactId="org.ros.rosjava.guava" version="r07" />
+    <artifact:dependency groupId="org.jboss.netty" artifactId="netty" version="3.2.4.Final" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.logging" version="1.1.1" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.net" version="2.0.0" />
+  </artifact:dependencies>
+  <artifact:dependencies filesetId="dependency.fileset.test">
+    <artifact:remoteRepository id="org.ros.release" url="http://robotbrains.hideho.org/nexus/content/groups/ros-public" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.codec" version="1.3.0" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.httpclient" version="3.1.0" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.logging" version="1.1.1" />
+    <artifact:dependency groupId="dnsjava" artifactId="org.ros.rosjava.dnsjava" version="2.1.1" />
+    <artifact:dependency groupId="com.google.guava" artifactId="org.ros.rosjava.guava" version="r07" />
+    <artifact:dependency groupId="org.jboss.netty" artifactId="netty" version="3.2.4.Final" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.logging" version="1.1.1" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.net" version="2.0.0" />
+  </artifact:dependencies>
+  <artifact:dependencies filesetId="dependency.fileset.runtime">
+    <artifact:remoteRepository id="org.ros.release" url="http://robotbrains.hideho.org/nexus/content/groups/ros-public" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.codec" version="1.3.0" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.httpclient" version="3.1.0" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.logging" version="1.1.1" />
+    <artifact:dependency groupId="dnsjava" artifactId="org.ros.rosjava.dnsjava" version="2.1.1" />
+    <artifact:dependency groupId="com.google.guava" artifactId="org.ros.rosjava.guava" version="r07" />
+    <artifact:dependency groupId="org.jboss.netty" artifactId="netty" version="3.2.4.Final" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.logging" version="1.1.1" />
+    <artifact:dependency groupId="org.apache.commons" artifactId="com.springsource.org.apache.commons.net" version="2.0.0" />
+  </artifact:dependencies>
+
+
+  <target name="get-dependencies">
+    <ac:for param="file">
+      <path>
+        <fileset refid="dependency.fileset.compile"/>
+      </path>
+      <sequential>
+	<echo file="${dependency.file}" append="true">compile::::@{file}
+</echo>
+      </sequential>
+    </ac:for>
+    <ac:for param="file">
+      <path>
+        <fileset refid="dependency.fileset.runtime"/>
+      </path>
+      <sequential>
+	<echo file="${dependency.file}" append="true">runtime::::@{file}
+</echo>
+      </sequential>
+    </ac:for>
+    <ac:for param="file">
+      <path>
+        <fileset refid="dependency.fileset.test"/>
+      </path>
+      <sequential>
+	<echo file="${dependency.file}" append="true">test::::@{file}
+</echo>
+      </sequential>
+    </ac:for>
+  </target>
+</project>

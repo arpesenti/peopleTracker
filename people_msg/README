@@ -1,0 +1,5 @@
+ROS message definition for topic "/people"
+Installation:
+- copy this entire directory (i.e. people_msg) into your ROS_PACKAGE_PATH
+- cd to ROS_PACKAGE_PATH
+- build the package with "rosmake people_msg"

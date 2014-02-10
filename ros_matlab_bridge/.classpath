@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.net/2.0.0/com.springsource.org.apache.commons.net-2.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.roscpp-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/com/google/guava/org.ros.rosjava.guava/r07/org.ros.rosjava.guava-r07.jar"/>
+	<classpathentry kind="lib" path="/opt/ros/hydro/share/mplab-ros-pkg/matlab_bridge/target/edu.ucsd-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.dynamic_reconfigure-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/opt/ros/hydro/share/mplab-ros-pkg/rosjava_legacy/rosjava/target/org.ros.rosjava-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.nav_msgs-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.geometry_msgs-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/opt/ros/hydro/share/mplab-ros-pkg/rosjava_legacy/apache_commons_util/target/org.ros.rosjava.ws-commons-util-1.0.2.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.codec/1.3.0/com.springsource.org.apache.commons.codec-1.3.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/org/jboss/netty/netty/3.2.4.Final/netty-3.2.4.Final.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/dnsjava/org.ros.rosjava.dnsjava/2.1.1/org.ros.rosjava.dnsjava-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.topic_tools-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.httpclient/3.1.0/com.springsource.org.apache.commons.httpclient-3.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.std_msgs-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.actionlib_msgs-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.logging/1.1.1/com.springsource.org.apache.commons.logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/opt/ros/hydro/share/mplab-ros-pkg/rosjava_legacy/apache_xmlrpc/target/org.ros.rosjava.apache-xmlrpc-3.1.3.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.sensor_msgs-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.rosgraph_msgs-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.test_ros-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/opt/ros/hydro/share/mplab-ros-pkg/rosjava_legacy/rosjava_bootstrap/target/org.ros.rosjava.rosjava_bootstrap-0.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/arpesenti/.ros/rosjava/lib/org.ros.rosjava.nidaqIO-0.0.0.jar"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>

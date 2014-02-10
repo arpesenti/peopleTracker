@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/56/trunk/matlab_bridge/src/main/java/edu/ucsd
+END
+ClassPathHacker.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/19/trunk/matlab_bridge/src/main/java/edu/ucsd/ClassPathHacker.java
+END
+ServiceResponseAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/56/trunk/matlab_bridge/src/main/java/edu/ucsd/ServiceResponseAdapter.java
+END
+SubscriberAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/32/trunk/matlab_bridge/src/main/java/edu/ucsd/SubscriberAdapter.java
+END
