@@ -13,7 +13,8 @@ function [rotatedPoints, M, Minv] = rotatePointCloud(points, floorParameters)
 % IMPORTANT PRECONDITION: the camera reference system (w.r.t. which the input
 % points coordinates are expressed) must satisfy the following constraint: the
 % y-axis of the camera reference system must intersect the floor plane 
-% specified by floorParameters at a certain point in its NEGATIVE SEMI-AXIS.
+% specified by floorParameters at a certain point in its NEGATIVE
+% SEMI-AXIS (sensor is not upside down).
 %
 %
 % [rotatedPoints, M, Minv] = rotatePointCloud(points, floorParameters)
@@ -35,7 +36,8 @@ function [rotatedPoints, M, Minv] = rotatePointCloud(points, floorParameters)
 
     % ensure to have the normal vector of the floor pointing "upwards",
     % which corresponds to have positive value of y-component in the reference
-    % system of the camera
+    % system of the camera. This assume that the sensor is not used upside
+    % down.
     if floorParameters(2) < 0
         floor = floorParameters*(-1);
     else 
@@ -63,20 +65,11 @@ function [rotatedPoints, M, Minv] = rotatePointCloud(points, floorParameters)
    
     roll = acos(dot(axisOfRotation, xAxis)/(norm(axisOfRotation)*norm(xAxis)));
     
-    % determine the direction of rotation of the x-axis
-    angleRotX = 0;
-    if axisOfRotation(1) < 0
-      if axisOfRotation(2) > 0
-        angleRotX = +(pi - roll);
-      else
-        angleRotX = -(pi - roll);
-      end      
-    elseif axisOfRotation(1) > 0
-      if axisOfRotation(2) > 0
-        angleRotX = -roll;
-      else
-        angleRotX = +roll;
-      end
+    % determine the direction of rotation of the x-axis    
+    if axisOfRotation(2) > 0
+      angleRotX = -roll;
+    else
+      angleRotX = +roll;
     end
     
     % rotation around z-axis to align x-axis to axisOfRotation (that is
