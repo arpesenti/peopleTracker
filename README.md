@@ -1,5 +1,6 @@
 # About
 ![](https://raw2.github.com/arpesenti/peopleTracker/master/people.png)
+
 Small-footprint mobile ground robots, such as the popular [Turtlebot](http://www.turtlebot.com) and [Kobuki](http://kobuki.yujinrobot.com) platforms, are by necessity equipped with sensors which lie close to the ground. Reliably detecting and tracking people from this viewpoint is a challenging problem, whose solution is a key requirement for many applications involving sharing of common spaces and close human-robot interaction. Here you can find a robust solution for cluttered indoor environments, using an inexpensive RGB-D sensor such as the Microsoft Kinect or Asus Xtion. A MATLAB real-time ROS-enabled implementation is available on this git repository.
 
 # Getting Started
@@ -27,6 +28,6 @@ If you want to integrate the system in a ROS environment, reading sensor data on
 The files in the direcotry examples contain detailed explanations about the usage of the system with the various source type. To obtain more information about a particular function use the MATLAB command help.
 
 # More information
-Testing datasets, qualitative results and more details about the system are available at [bit.ly/perceivingpeople](bit.ly/perceivingpeople).
+Testing datasets, qualitative results and more details about the system are available at [bit.ly/perceivingpeople](http://bit.ly/perceivingpeople).
 
 
