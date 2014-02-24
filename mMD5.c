@@ -325,7 +325,7 @@ static void mMDFile (char *filename, char *output)
   time(&starttime);
   if ((file = fopen (filename, "rb")) == NULL) {
     /*printf ("%s can't be opened, try it as a string\n", filename);*/
-    MDString(filename, outbuf);
+    MDString((char *)filename, (char *)outbuf);
     for (i=0;i<32;i++) output[i] = outbuf[i];
     time(&endtime);
     /*printf("The process takes %u seconds\n",(long) (endtime-starttime));*/
