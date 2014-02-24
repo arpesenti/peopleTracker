@@ -4,7 +4,7 @@ OPENNIDIR ?= /usr/local/include/ni
 CXX = g++
 CFLAGS = -O3 -fPIC -fopenmp -I$(MATLABDIR)/extern/include 
 
-
+LD_LIBRARY=/usr/lib:/usr/lib64:$(LD_LIBRARY_PATH)
 
 LDFLAGS+="-fopenmp"
 ifeq ($(MEX_EXT),mexmaci64)
@@ -20,7 +20,7 @@ else
 endif
 
 MEX = $(MATLABDIR)/bin/mex
-MEX_OPTION = CC\=$(CXX) CXX\=$(CXX) CFLAGS\="$(CFLAGS) -fpermissive" CXXFLAGS\="$(CFLAGS) -std=c++11" LDFLAGS\=$(LDFLAGS)
+MEX_OPTION = CC\=$(CXX) CXX\=$(CXX) CFLAGS\="$(CFLAGS) -fpermissive" CXXFLAGS\="$(CFLAGS) -std=c++11" LDFLAGS\=$(LDFLAGS) LD_LIBRARY_PATH\=$(LD_LIBRARY)
 # comment the following line if you use MATLAB on 32-bit computer
 MEX_OPTION += -largeArrayDims
 
