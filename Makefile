@@ -18,7 +18,7 @@ MEX_OPTION = CC\=$(CXX) CXX\=$(CXX) CFLAGS\="$(CFLAGS) -fpermissive" CXXFLAGS\="
 # comment the following line if you use MATLAB on 32-bit computer
 MEX_OPTION += -largeArrayDims
 
-OPENNI_LIB = -lOpenNI -lopenNI
+OPENNI_LIB = -lOpenNI
 
 all:	matlab libsvm openni
 
