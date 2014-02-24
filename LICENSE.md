@@ -20,4 +20,4 @@ External libraries:
 - [ROS-Matlab bridge](https://code.google.com/p/mplab-ros-pkg/wiki/java_matlab_bridge)
 - [Kinect Matlab](http://www.mathworks.com/matlabcentral/fileexchange/30242-kinect-matlab)
 - [nanoflann](https://code.google.com/p/nanoflann/)
-- [MD5 in Matlba](http://www.mathworks.it/matlabcentral/fileexchange/7919-md5-in-matlab)
+- [MD5 in Matlab](http://www.mathworks.it/matlabcentral/fileexchange/7919-md5-in-matlab)
