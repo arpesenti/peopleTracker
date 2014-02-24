@@ -15,6 +15,9 @@ The implementation has been tested under Mac OSX and Ubuntu Linux. In order to b
 ## Installation
 Compile mex functions from an OS terminal with the following command: `MATLABDIR="/path/to/matlab" OPENNIDIR="/path/to/openni/include" make`. 
 Where `"/path/to/matlab"` is the MATLAB root directory, and where `"/path/to/openni/include"` is the OpenNI headers directory.
+
+(Note: For some linux distribution you may have linking problems with libstdc++: force matlab to compile using libstdc++ of your system and not its own version. One way to do so is to temporarly make the symbolic link in `MATLABDIR/sys/os/ARCH/libstdc++.so.*` to point to the system libstdc++ (typically under `/usr/lib`))
+
 Up to this stage you can use the system:
 * live: with an OpenNI compatible RGB-D sensor (tested with Microsft Kinect and Asus Xtion Pro Live), directly connected to computer where the system is running.
 * recorded videos: with ".oni" files, previously recorded with an RGB-D sensor.
