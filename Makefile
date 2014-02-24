@@ -4,13 +4,19 @@ OPENNIDIR ?= /usr/local/include/ni
 CXX = g++
 CFLAGS = -O3 -fPIC -fopenmp -I$(MATLABDIR)/extern/include 
 
-MEX_EXT = $(shell $(MATLABDIR)/bin/mexext)
+
 
 LDFLAGS+="-fopenmp"
 ifeq ($(MEX_EXT),mexmaci64)
 	LDFLAGS+=" -bundle"
 else
 	LDFLAGS+=" -shared"
+endif
+
+ifeq ($(wildcard $(MATLABDIR)/bin/mexext),)
+	MEX_EXT = 
+else
+	MEX_EXT = $(shell $(MATLABDIR)/bin/mexext)
 endif
 
 MEX = $(MATLABDIR)/bin/mex
@@ -20,7 +26,7 @@ MEX_OPTION += -largeArrayDims
 
 OPENNI_LIB = -lOpenNI
 
-all:	matlab libsvm openni
+all: matlab libsvm openni
 
 matlab:	expandCandidates.$(MEX_EXT) getVoxelGrid.$(MEX_EXT) dbscanClustering.$(MEX_EXT) extractFeaturesHOG.$(MEX_EXT) minDist.$(MEX_EXT) mMD5.$(MEX_EXT)
 
@@ -87,3 +93,4 @@ mMD5.$(MEX_EXT): mMD5.c
 
 clean:
 	rm -f *~ *.o *.mex* *.obj libsvm/*.o libsvm/*.mex* openni/*.mex*
+
