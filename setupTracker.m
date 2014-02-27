@@ -1,4 +1,4 @@
-function [ tracker ] = setupTracker( sourceType, uri, enablePlotPhoto, enablePlotMap )
+function [ tracker ] = setupTracker( sourceType, uri, enablePlotPhoto, enablePlotMap, enableOdometry )
 %SETUPTRACKER Initialize the people tracker, choosing source type and if
 %             enable plots.
 %
@@ -25,6 +25,8 @@ function [ tracker ] = setupTracker( sourceType, uri, enablePlotPhoto, enablePlo
 %   enablePlotMap = (optional) boolean to enable the plot of a top view map
 %                   containing the tracked people, for debugging purposes. 
 %                   Default is false.
+%   enableOdometry = (optional) boolean to enable the reading of odometry
+%                    from ros topic /odom. Default is false.
 %
 %Output:
 %   tracker = object containing the state of the tracker
@@ -45,7 +47,7 @@ tracker.peopleDistThreshold = 75; % maximum distance between leg expansions, for
 tracker.legProbabilityThreshold = 0.8; % probability threshold over which a candidates is considere a leg
 
 % Parameter to specify how often searching for a floor plane
-tracker.refreshIntervalFloorPlane = 1; %seconds
+tracker.refreshIntervalFloorPlane = 0.05; %seconds
 
 % Parameter to simulate different frame rates in recorded oni videos
 tracker.fps = 30;
@@ -69,6 +71,12 @@ if nargin < 4
 else
     tracker.enablePlotPhoto = enablePlotPhoto;
     tracker.enablePlotMap = enablePlotMap;
+end
+
+if nargin < 5
+    tracker.enableOdom = false;
+else
+    tracker.enableOdom = enableOdometry;
 end
 
 if tracker.enablePlotPhoto || tracker.enablePlotMap
@@ -157,48 +165,76 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
     depthMessage = [];
     rgbMessage = [];
     odometryMessage = [];
+    global rgbImage;
     if tracker.enablePlotPhoto
-        while isempty(depthMessage) || isempty(rgbMessage) || isempty(odometryMessage)
+        while isempty(depthMessage) || isempty(rgbMessage) 
             % wait for rgb-d and odomotery messages
             depthMessage = tracker.depthSubscriber.takeMessage(timeout);
             rgbMessage = tracker.rgbSubscriber.takeMessage(timeout);
-            odometryMessage = tracker.odometrySubscriber.takeMessage(timeout);
+            if tracker.enableOdom
+                odometryMessage = tracker.odometrySubscriber.takeMessage(timeout);
+            end
         end
      
-        % rgb jpeg decompression
-        jImg = javax.imageio.ImageIO.read(java.io.ByteArrayInputStream(typecast(rgbMessage.data,'uint8')));
-        h = jImg.getHeight;
-        w = jImg.getWidth;
-        p = reshape(typecast(jImg.getData.getDataStorage, 'uint8'), [1,w,h]);
-        
-        % demosaic of Bayer GRBG encoded image
-        rgb = demosaic(transpose(reshape(p(1,:,:), [w,h])), 'grbg');
+%         % rgb jpeg decompression
+%         jImg = javax.imageio.ImageIO.read(java.io.ByteArrayInputStream(typecast(rgbMessage.data,'uint8')));
+%         h = jImg.getHeight;
+%         w = jImg.getWidth;
+%         p = reshape(typecast(jImg.getData.getDataStorage, 'uint8'), [1,w,h]);
+%                 
+%         % demosaic of Bayer GRBG encoded image
+%         rgb = demosaic(transpose(reshape(p(1,:,:), [w,h])), 'grbg');
+
+         w = rgbMessage.width;
+         h = rgbMessage.height;
+         
+         % from yuv442 to rgb
+         temp = zeros(w*h,3,'uint8');
+         temp(:,1) = typecast(rgbMessage.data(2:2:end),'uint8');
+         temp(1:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
+         temp(2:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
+         temp(1:2:end,3) = typecast(rgbMessage.data(3:4:end),'uint8');
+         temp(2:2:end,3) = typecast(rgbMessage.data(3:4:end),'uint8');
+         
+         yuvTorgb = [1 0 1.13983; 1 -0.39465 -0.58060; 1 2.03211 0]'; 
+         temp = cast(temp,'double');
+         temp(:,[2 3]) = temp(:,[2 3]) - 128;
+         temp = temp * yuvTorgb ;
+         temp = cast(temp, 'uint8');
+         rgb = cat(3,reshape(temp(:,1), [w h])', reshape(temp(:,2),[w h])', reshape(temp(:,3),[w h])');
+         
+         
+         % decode bgr8 encoding 8UC3 image
+         %rgb = cat(3,reshape(typecast(rgbMessage.data(3:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(2:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(1:3:end),'uint8'),[w,h])');
+ 
+       
     else
         rgb = [];
-        while isempty(depthMessage) || isempty(odometryMessage)
+        while isempty(depthMessage) 
             % wait for depth and odomotery messages
             depthMessage = tracker.depthSubscriber.takeMessage(timeout);
-            odometryMessage = tracker.odometrySubscriber.takeMessage(timeout);
+            if tracker.enableOdom
+                odometryMessage = tracker.odometrySubscriber.takeMessage(timeout);
+            end
         end
     end
 
-    % decode 16UC1 depth
-    if length(depthMessage.data) == 640*480*2
-        w = 640;
-        h = 480;
-    else
-        w = 320;
-        h = 240;
-    end
+   
+    % decode 16UC1 depth   
+    w = depthMessage.width;
+    h = depthMessage.height;
     depth = typecast(depthMessage.data, 'uint8');
     depth = reshape(bitor(cast(depth(1:2:end), 'uint16'), bitshift(cast(depth(2:2:end), 'uint16'),8)), w,h)';
 
+    
     % read odometry
-    tracker.pose(1) = odometryMessage.pose.pose.position.x; % x real world coordinate
-    tracker.pose(2) = odometryMessage.pose.pose.position.y; % y real world coordinate
-    % robot orientation (yaw)
-    [tracker.pose(3), ~, ~] = quat2angle([odometryMessage.pose.pose.orientation.w odometryMessage.pose.pose.orientation.x odometryMessage.pose.pose.orientation.y odometryMessage.pose.pose.orientation.z]);
-    tracker.pose(3) = tracker.pose(3)-pi/2; % adjust angle between robot odometry and our rotated reference system
+    if tracker.enableOdom && ~isempty(odometryMessage)
+        tracker.pose(1) = odometryMessage.pose.pose.position.x; % x real world coordinate
+        tracker.pose(2) = odometryMessage.pose.pose.position.y; % y real world coordinate
+        % robot orientation (yaw)
+        [tracker.pose(3), ~, ~] = quat2angle([odometryMessage.pose.pose.orientation.w odometryMessage.pose.pose.orientation.x odometryMessage.pose.pose.orientation.y odometryMessage.pose.pose.orientation.z]);
+        tracker.pose(3) = tracker.pose(3)-pi/2; % adjust angle between robot odometry and our rotated reference system
+    end
     
     % update timestamp
     tracker.oldTimestamp = tracker.currentTimestamp;
@@ -239,9 +275,14 @@ elseif strcmp(sourceType,'ros')
     % initialize ROS node named PeopleTracker
     run([libraryPath '/ros_matlab_bridge/jmb_init']);
     tracker.node = jmb_init_node('PeopleTracker', uri);
+    %tracker.depthSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/depth/image_raw','sensor_msgs/Image');
     tracker.depthSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/depth_registered/image_raw','sensor_msgs/Image');
-    tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/rgb/image_raw/compressed','sensor_msgs/CompressedImage');
-    tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/odom','nav_msgs/Odometry');
+    tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/rgb/image_raw','sensor_msgs/Image');
+    %tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/rgb/image_color','sensor_msgs/Image');
+    
+    if tracker.enableOdom 
+        tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/odom','nav_msgs/Odometry');
+    end
     tracker.peoplePublisher = tracker.node.newPublisher('/people','people_msg/People');
     tracker.publish = @(people) publishROS(tracker, people);
     tracker.update = @(tracker) updateFromRos(tracker);
@@ -263,7 +304,7 @@ tracker.oldTimestamp = 0;
 tracker.currentTimestamp = 0;
 tracker.frameNum = 0;
 tracker.frameNumDecimal = 0; % to be used when a fps different from 30 is used
-tracker.floorPlane = [];
+tracker.floorPlane = [0 1 0 250]; % initialize as if camera is perfectly horizontal at 25cm above the floor
 tracker.pose = zeros(3,1);
 tracker.floorPlaneTimestamp = -Inf;
 

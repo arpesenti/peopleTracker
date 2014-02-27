@@ -42,8 +42,11 @@ legProbabilityThreshold = tracker.legProbabilityThreshold;
 % --- search for floor plane, if refreshIntervalFloorPlane has elapsed since
 % the last floor update ---
 if tracker.currentTimestamp - tracker.floorPlaneTimestamp > tracker.refreshIntervalFloorPlane
-    tracker.floorPlane = getGroundPlane(points,20);
-    tracker.floorPlaneTimestamp = tracker.currentTimestamp;
+    updatedPlane =  getGroundPlane(points,20);
+    if ~isempty(updatedPlane)
+       tracker.floorPlane = updatedPlane;
+       tracker.floorPlaneTimestamp = tracker.currentTimestamp;
+    end    
 end
 
 % --- transform the point cloud to a more pratical reference system ---

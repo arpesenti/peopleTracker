@@ -72,6 +72,11 @@ function [best_plane, best_count] = getGroundPlane( points, maxInclinationAngle,
   points = points(:,points(2,:)<0);
   pointsHom = [points; ones(1,size(points,2))];
   
+  if size(points,2) < tentative_num * 3
+    best_plane = [];
+    best_count = 0;
+    return;
+  end
   
   % if count greater than this threshold, accept plane
 %   thresholdCount = round(0.8*size(XYZ,1));
