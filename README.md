@@ -22,7 +22,7 @@ Up to this stage you can use the system:
 * live: with an OpenNI compatible RGB-D sensor (tested with Microsft Kinect and Asus Xtion Pro Live), directly connected to computer where the system is running.
 * recorded videos: with ".oni" files, previously recorded with an RGB-D sensor.
 
-If you want to integrate the system in a ROS environment, reading sensor data on the topics *"/camera/depth_registered/image_raw"* and *"/camera/rgb/image_raw/compressed"*, reading odometry data on the topic *"/odom"* and publishing the traked people on the topic *"/people"* with message type *"people_msg/People"*, you need to perform the following additional steps:
+If you want to integrate the system in a ROS environment, reading sensor data on the topics *"/camera/depth_registered/image_raw"* and *"/camera/rgb/image_raw"*, reading odometry data on the topic *"/odom"* and publishing the traked people on the topic *"/people"* with message type *"people_msg/People"*, you need to perform the following additional steps:
 * copy the entire people_msg directory into your `ROS_PACKAGE_PATH`
 * cd to `ROS_PACKAGE_PATH`
 * build the package with `rosmake people_msg`

@@ -9,7 +9,7 @@ function [ tracker ] = setupTracker( sourceType, uri, enablePlotPhoto, enablePlo
 %                         the PC.
 %                - 'ros': the people tracker acts as ROS node. It subscribes
 %                         to the RGB-D sensor topics (/camera/depth_registered/image_raw
-%                         and /camera/rgb/image_raw/compressed) and to the
+%                         and /camera/rgb/image_raw) and to the
 %                         odometry topic (/odom), and publish the found
 %                         people (/people, with message type people_msg/People)
 %   uri = uri where to search for data, one of the following corresponding
@@ -165,7 +165,6 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
     depthMessage = [];
     rgbMessage = [];
     odometryMessage = [];
-    global rgbImage;
     if tracker.enablePlotPhoto
         while isempty(depthMessage) || isempty(rgbMessage) 
             % wait for rgb-d and odomotery messages
