@@ -247,20 +247,26 @@ function publishROS(tracker, people)
     % topic: /people
     % message type: people_msg/People
     
-    if isempty(people)
-        return
-    end
-
     msg = org.ros.message.people_msg.People();
-    numPeople = length(people);
-    msg.numberOfPeople = numPeople; % number of people currently tracked
-    positions = cat(1,people.peoplePosition);
-    velocities = cat(1,people.peopleVelocity);
-    msg.peopleID = cat(1,people.id); % unique IDs of tracked people 
-    msg.x = positions(:,1); % x real world coordinates of people
-    msg.y = positions(:,2); % y real world coordinates of people
-    msg.vx = velocities(:,1); % x compoment of absolute velocity of people
-    msg.vy = velocities(:,2); % y compoment of absolute velocity of people
+    
+    if isempty(people)
+        msg.numberOfPeople = 0;
+%         msg.peopleID = 0; % unique IDs of tracked people 
+%         msg.x = 0; % x real world coordinates of people
+%         msg.y = 0; % y real world coordinates of people
+%         msg.vx = 0; % x compoment of absolute velocity of people
+%         msg.vy = 0; % y compoment of absolute velocity of people
+    else
+        numPeople = length(people);
+        msg.numberOfPeople = numPeople; % number of people currently tracked
+        positions = cat(1,people.peoplePosition);
+        velocities = cat(1,people.peopleVelocity);
+        msg.peopleID = cat(1,people.id); % unique IDs of tracked people 
+        msg.x = positions(:,1); % x real world coordinates of people
+        msg.y = positions(:,2); % y real world coordinates of people
+        msg.vx = velocities(:,1); % x compoment of absolute velocity of people
+        msg.vy = velocities(:,2); % y compoment of absolute velocity of people
+    end
     
     tracker.peoplePublisher.publish(msg);
 end
