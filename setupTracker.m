@@ -54,6 +54,13 @@ tracker.fps = 30;
 
 % Path to the trained svm classifier (libsvm)
 svmPath = 'svm.mat';
+
+% Enable plot of floor plane
+tracker.enablePlotFloor = false;
+
+% floor plane tolerance in mm
+tracker.floorPlaneTolerance = 2;
+
 % -----------------
 libraryPath = fileparts(which('setupTracker'));
 addpath([libraryPath filesep 'libsvm']);
@@ -340,18 +347,14 @@ triangle(1:2,:) = triangle(1:2,:) - repmat(centroid-[offset;0],1,size(triangle,2
 end
 
 function circle = createCircle(radius)
-n = 50;
-m = 50;
-o = 1;
-circle = zeros(3,m*n*o);
+n = 30;
+circle = zeros(3,ceil(0.1*2*radius*pi)*n);
 count = 0;
 for ro=linspace(0,radius,n)
     startingAngle = rand(1)*2*pi;
-    for theta=linspace(0+startingAngle,2*pi+startingAngle,0.1*2*radius*pi)
-        for h=linspace(5,10,o);
-            count = count + 1;
-            circle(:,count) = [ro*cos(theta+ro); ro*sin(theta+ro); h];
-        end
+    for theta=linspace(0+startingAngle,2*pi+startingAngle,ceil(0.1*2*ro*pi))
+        count = count + 1;
+        circle(:,count) = [ro*cos(theta+ro); ro*sin(theta+ro); 7.5];
     end
 end
 circle(:,count+1:end) = [];

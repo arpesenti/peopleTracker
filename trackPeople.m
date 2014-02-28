@@ -42,7 +42,7 @@ legProbabilityThreshold = tracker.legProbabilityThreshold;
 % --- search for floor plane, if refreshIntervalFloorPlane has elapsed since
 % the last floor update ---
 if tracker.currentTimestamp - tracker.floorPlaneTimestamp > tracker.refreshIntervalFloorPlane
-    updatedPlane =  getGroundPlane(points,20);
+    updatedPlane =  getGroundPlane(points,20,tracker.floorPlaneTolerance);
     if ~isempty(updatedPlane)
        tracker.floorPlane = updatedPlane;
        tracker.floorPlaneTimestamp = tracker.currentTimestamp;
@@ -288,6 +288,15 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
         end
     end
     if tracker.enablePlotPhoto
+        % plot floor plane
+        if tracker.enablePlotFloor
+           plane = tracker.floorPlane;
+           idx = find(abs(plane'*[points; ones(1,size(points,2))]) < sqrt(sum(plane(1:3).^2))*tracker.floorPlaneTolerance);
+           colors(1,idx) = 0;
+           colors(2,idx) = 255;
+           colors(3,idx) = 255;
+        end
+        
         % generate the image of the point cloud with the specified overlays
         im = plotPC(rotatedPoints, colors, Rinv,overlayPoints,overlayColors,alphaBackground, alphaOverlay);
         image(im,'Parent',tracker.hPhoto);
