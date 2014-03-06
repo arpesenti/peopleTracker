@@ -300,8 +300,13 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
         % generate the image of the point cloud with the specified overlays
         im = plotPC(rotatedPoints, colors, Rinv,overlayPoints,overlayColors,alphaBackground, alphaOverlay);
         image(im,'Parent',tracker.hPhoto);
+        if tracker.recordVideo
+           im = imdilate(im,strel('disk',1));
+           writeVideo(tracker.writerObjPhoto, cast(im*255,'uint8'));
+        end
     end
     if tracker.enablePlotMap
+        writeVideo(tracker.writerObjMap, getframe(tracker.hMap));
         hold(tracker.hMap,'off');
     end
 end

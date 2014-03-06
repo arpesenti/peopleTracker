@@ -19,5 +19,13 @@ elseif strcmp(tracker.sourceType,'oniLive')
     mxNiDeleteContext(tracker.sensorHandle);
 end
 
+if tracker.enablePlotPhoto && tracker.recordVideo
+   close(tracker.writerObjPhoto);
+end
+
+if tracker.enablePlotMap && tracker.recordVideo
+   close(tracker.writerObjMap);
+end
+
 end
 

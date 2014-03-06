@@ -62,15 +62,18 @@ tracker.enablePlotFloor = false;
 tracker.floorPlaneTolerance = 2;
 
 % sensor upside down (vertical flip)
-tracker.upsideDown = true;
+tracker.upsideDown = false;
 
 % mirrored data (horizontal flip)
-tracker.mirrored = true;
+tracker.mirrored = false;
 
 % ROS topics
 rgbTopic = '/camera/rgb/image_raw'; % message type: sensor_msgs/Image encoding: yuv422
 depthTopic = '/camera/depth_registered/image_raw'; % message type: sensor_msgs/Image encoding: 16UC1
 odometryTopic = '/odom'; % message type: nav_msgs/Odometry
+
+% record video of processed point cloud (at least one plot must be enabled)
+tracker.recordVideo = false;
 
 % -----------------
 libraryPath = fileparts(which('setupTracker'));
@@ -95,6 +98,18 @@ if nargin < 5
     tracker.enableOdom = false;
 else
     tracker.enableOdom = enableOdometry;
+end
+
+if tracker.enablePlotPhoto && tracker.recordVideo
+   tracker.writerObjPhoto = VideoWriter('videoPhoto.mp4','MPEG-4');
+   tracker.writerObjPhoto.Quality = 100;
+   open(tracker.writerObjPhoto);
+end
+
+if tracker.enablePlotMap && tracker.recordVideo
+   tracker.writerObjMap = VideoWriter('videoMap.mp4','MPEG-4');
+   tracker.writerObjMap.Quality = 100;
+   open(tracker.writerObjMap);
 end
 
 if tracker.enablePlotPhoto || tracker.enablePlotMap
