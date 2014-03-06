@@ -114,9 +114,20 @@ end
 
 if tracker.enablePlotPhoto || tracker.enablePlotMap
     tracker.figure = figure;
-    nColors  = 50;
-    colors=jet(nColors);
-    tracker.colors = colors(randperm(nColors, nColors),:);
+    %nColors  = 50;
+    %colors=jet(nColors);
+    %tracker.colors = colors(randperm(nColors, nColors),:);
+    tracker.colors = [1.0000         0         0;
+                           0         0    1.0000;
+                           0    0.6667    1.0000;
+                      0.6667    1.0000    0.3333;
+                      1.0000    1.0000         0;
+                      1.0000         0    1.0000;                  
+                      0.3000    0.6000         0;
+                           0    1.0000    1.0000;
+                      1.0000    0.7000    0.0500;
+                           0    1.0000         0];
+    tracker.colorAssignments = zeros(size(tracker.colors,1),1);
     if tracker.enablePlotPhoto && tracker.enablePlotMap
         tracker.hPhoto = subplottight(1,2,1);
         tracker.hMap = subplottight(1,2,2);

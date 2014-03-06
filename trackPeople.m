@@ -182,16 +182,27 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
     legTracks = tracker.legTracks;
     peopleTracks = tracker.peopleTracks;
     
-    nColors = size(tracker.colors,1);
+    peopleColors = tracker.colors;  
+    colorAssignments = tracker.colorAssignments;
     
+    if length(find(colorAssignments == 0)) < 3
+      % clean color assignments
+       if isempty(tracker.peopleTracks)
+           colorAssignments(:) = 0;
+        else
+          currentPeopleIds = cat(1,tracker.peopleTracks.id);
+          colorAssignments(~ismember(colorAssignments, [0; currentPeopleIds])) = 0;
+       end
+    end
+  
     figure(tracker.figure);
+    
     if tracker.enablePlotPhoto
         maxSpeed = 2;
         overlayColors = [];
         overlayPoints = [];
         alphaBackground = 1;
         alphaOverlay = 0.5;
-        colours = tracker.colors;  
         for j=1:length(candidates)
            if ~isempty(candidatesTrack) && candidatesTrack(j) ~= 0 && legTrackOnPeople(candidatesTrack(j)) ~= 0
               % find to which person the candidate is associated
@@ -208,7 +219,17 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
               % add an overlay to the points of the canidate with the color
               % corresponding to the person
               peopleId = person.id;
-              color = colours(mod(peopleId,nColors)+1,:);
+              cidx = find(colorAssignments == peopleId);
+              if isempty(cidx)
+                % new person - a free color must be assigned to it
+                cidx = find(colorAssignments == 0, 1, 'first');
+                colorAssignments(cidx) = peopleId;
+                if isempty(cidx)
+                  cidx = 1; % when all colors are taken
+                end
+              end
+              color = peopleColors(cidx,:);
+              
               overlayColors = [overlayColors repmat(color',1,size(candidate.allPoints,2))];
               overlayPoints = [overlayPoints cat(2,candidate.allPoints)];
             end
@@ -229,7 +250,16 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
     for i=1:length(people)
         if people(i).id ~= 0
             % person color if is a tracked person
-            color = cast(floor(255*tracker.colors(mod(people(i).id,nColors)+1,:)),'uint8');
+              cidx = find(colorAssignments == people(i).id);
+              if isempty(cidx)
+                % new person - a free color must be assigned to it
+                cidx = find(colorAssignments == 0, 1, 'first');
+                colorAssignments(cidx) = people(i).id;  
+                if isempty(cidx)
+                  cidx = 1; % when all colors are taken
+                end
+              end
+           color = cast(floor(255*peopleColors(cidx,:)),'uint8');
         else
             % green if is a previously unseen person (a leg not associated)
             color = cast([0 255 0],'uint8');
@@ -311,6 +341,8 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
         end
         hold(tracker.hMap,'off');
     end
+          
+    tracker.colorAssignments = colorAssignments;
 end
 
 end

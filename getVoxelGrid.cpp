@@ -35,18 +35,15 @@ void mexFunction( int nlhs, mxArray *plhs[],
   int numCols = mxGetN(Mdepth);
   int numPoints = numRows*numCols;
   
-  uint64_t prime;
   register double fx,fy,cx,cy; // sensor intrinsic parameters
   if (numPoints == 640*480) {
       // high resolution
-      prime = 20507;
       fx = 1/525.0;
       fy = 1/525.0;
       cx = 319.5;
       cy = 239.5;
   } else if (numPoints == 320*240) {
       // low resolution
-      prime = 11113;
       fx = 1/(525.0/2);
       fy = 1/(525.0/2);
       cx = 159.75;
