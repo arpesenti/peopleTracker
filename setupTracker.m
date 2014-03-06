@@ -61,6 +61,17 @@ tracker.enablePlotFloor = false;
 % floor plane tolerance in mm
 tracker.floorPlaneTolerance = 2;
 
+% sensor upside down (vertical flip)
+tracker.upsideDown = true;
+
+% mirrored data (horizontal flip)
+tracker.mirrored = true;
+
+% ROS topics
+rgbTopic = '/camera/rgb/image_raw'; % message type: sensor_msgs/Image encoding: yuv422
+depthTopic = '/camera/depth_registered/image_raw'; % message type: sensor_msgs/Image encoding: 16UC1
+odometryTopic = '/odom'; % message type: nav_msgs/Odometry
+
 % -----------------
 libraryPath = fileparts(which('setupTracker'));
 addpath([libraryPath filesep 'libsvm']);
@@ -135,6 +146,16 @@ function [depth, rgb, tracker] = updateFromOni(sensorHandle, tracker)
         rgb = permute(mxNiPhoto(sensorHandle), [3 2 1]);
     end
     
+    if tracker.upsideDown
+        depth = depth(end:-1:1,:);
+        rgb = rgb(end:-1:1,:,:);
+    end
+    
+    if tracker.mirrored
+        depth = depth(:,end:-1:1);
+        rgb = rgb(:,end:-1:1,:);
+    end
+    
     % if parameter tracker.fps different from the maximum (30) simulate
     % lower frame rate
     maxFps = 30;
@@ -159,6 +180,16 @@ function [depth, rgb, tracker] = updateFromOniLive(sensorHandle, tracker)
     rgb = [];
     if tracker.enablePlotPhoto
         rgb = permute(mxNiPhoto(sensorHandle), [3 2 1]);
+    end
+    
+    if tracker.upsideDown
+        depth = depth(end:-1:1,:);
+        rgb = rgb(end:-1:1,:,:);
+    end
+    
+    if tracker.mirrored
+        depth = depth(:,end:-1:1);
+        rgb = rgb(:,end:-1:1,:);
     end
     
     % update timestamp of the current frame
@@ -194,7 +225,7 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
          w = rgbMessage.width;
          h = rgbMessage.height;
          
-         % from yuv442 to rgb
+         % from yuv422 to rgb
          temp = zeros(w*h,3,'uint8');
          temp(:,1) = typecast(rgbMessage.data(2:2:end),'uint8');
          temp(1:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
@@ -232,6 +263,15 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
     depth = typecast(depthMessage.data, 'uint8');
     depth = reshape(bitor(cast(depth(1:2:end), 'uint16'), bitshift(cast(depth(2:2:end), 'uint16'),8)), w,h)';
 
+    if tracker.upsideDown
+        depth = depth(end:-1:1,:);
+        rgb = rgb(end:-1:1,:,:);
+    end
+    
+    if tracker.mirrored
+        depth = depth(:,end:-1:1);
+        rgb = rgb(:,end:-1:1,:);
+    end
     
     % read odometry
     if tracker.enableOdom && ~isempty(odometryMessage)
@@ -287,13 +327,11 @@ elseif strcmp(sourceType,'ros')
     % initialize ROS node named PeopleTracker
     run([libraryPath '/ros_matlab_bridge/jmb_init']);
     tracker.node = jmb_init_node('PeopleTracker', uri);
-    %tracker.depthSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/depth/image_raw','sensor_msgs/Image');
-    tracker.depthSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/depth_registered/image_raw','sensor_msgs/Image');
-    tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/rgb/image_raw','sensor_msgs/Image');
-    %tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/camera/rgb/image_color','sensor_msgs/Image');
+    tracker.depthSubscriber = edu.ucsd.SubscriberAdapter(tracker.node, depthTopic,'sensor_msgs/Image');
+    tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node, rgbTopic,'sensor_msgs/Image');
     
     if tracker.enableOdom 
-        tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node,'/odom','nav_msgs/Odometry');
+        tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node, odometryTopic,'nav_msgs/Odometry');
     end
     tracker.peoplePublisher = tracker.node.newPublisher('/people','people_msg/People');
     tracker.publish = @(people) publishROS(tracker, people);
