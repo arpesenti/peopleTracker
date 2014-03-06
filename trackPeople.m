@@ -306,7 +306,9 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
         end
     end
     if tracker.enablePlotMap
-        writeVideo(tracker.writerObjMap, getframe(tracker.hMap));
+        if tracker.recordVideo
+            writeVideo(tracker.writerObjMap, getframe(tracker.hMap));
+        end
         hold(tracker.hMap,'off');
     end
 end
