@@ -14,9 +14,9 @@ The implementation has been tested under Mac OSX and Ubuntu Linux. In order to b
 
 ## Installation
 Compile mex functions from an OS terminal with the following command: `MATLABDIR="/path/to/matlab" OPENNIDIR="/path/to/openni/include" make`. 
-Where `"/path/to/matlab"` is the MATLAB root directory, and where `"/path/to/openni/include"` is the OpenNI headers directory.
+Where `"/path/to/matlab"` is the MATLAB root directory, and where `"/path/to/openni/include"` is the OpenNI headers directory (e.g. on Ubuntu it is typically "/usr/include/ni/").
 
-(Note: For some linux distribution you may have linking problems with libstdc++: force matlab to compile using libstdc++ of your system and not its own version. One way to do so is to temporarly make the symbolic link in `MATLABDIR/sys/os/ARCH/libstdc++.so.*` to point to the system libstdc++ (typically under `/usr/lib`))
+(Note: For some linux distribution you may have linking problems with libstdc++, that will result in an error message when running the code: in this case, force matlab to compile using libstdc++ of your system and not its own version. One way to do so is to temporarily make the symbolic link in `MATLABDIR/sys/os/ARCH/libstdc++.so.*` to point to the system libstdc++ (typically under `/usr/lib`)).
 
 Up to this stage you can use the system:
 * live: with an OpenNI compatible RGB-D sensor (tested with Microsft Kinect and Asus Xtion Pro Live), directly connected to computer where the system is running.
@@ -26,6 +26,8 @@ If you want to integrate the system in a ROS environment, reading sensor data on
 * copy the entire people_msg directory into your `ROS_PACKAGE_PATH`
 * cd to `ROS_PACKAGE_PATH`
 * build the package with `rosmake people_msg`
+
+(Note: the ROS MATLAB BRIDGE used by our system needs an updated version of the "google-collect.jar" library. It's necessary to replace the file `MATLABDIR/java/jarext/google-collect.jar` with the file that can be downloaded [http://search.maven.org/remotecontent?filepath=com/google/guava/guava/13.0.1/guava-13.0.1.jar"](here), renaming it from "guava-13.0.1.jar" to "google-collect.jar" and copying it to `MATLABDIR/java/jarext/` directory).
 
 ## Usage
 The files in the direcotry examples contain detailed explanations about the usage of the system with the various source type. To obtain more information about a particular function use the MATLAB command help.
