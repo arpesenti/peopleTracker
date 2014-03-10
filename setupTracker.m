@@ -127,6 +127,7 @@ if tracker.enablePlotPhoto || tracker.enablePlotMap
                            0    1.0000    1.0000;
                       1.0000    0.7000    0.0500;
                            0    1.0000         0];
+    tracker.colors = tracker.colors(randperm(length(tracker.colors), length(tracker.colors)),:);
     tracker.colorAssignments = zeros(size(tracker.colors,1),1);
     if tracker.enablePlotPhoto && tracker.enablePlotMap
         tracker.hPhoto = subplottight(1,2,1);
