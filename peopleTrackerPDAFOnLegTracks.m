@@ -158,7 +158,7 @@ if length(legTracks) > 1
         idCandidate1 = find(candidatesTrack == legTrack1,1,'first');
         idCandidate2 = find(candidatesTrack == legTrack2,1,'first');
         if ~isempty(idCandidate1) && ~isempty(idCandidate2)
-            [mindist,~,~] = minDist(candidates(idCandidate1).allPoints, candidates(idCandidate2).allPoints, thresholdDistOverlappingCandidates);
+            mindist = minDist(candidates(idCandidate1).allPoints, candidates(idCandidate2).allPoints, candidates(idCandidate1).centroid, candidates(idCandidate2).centroid, thresholdDistOverlappingCandidates);
             if mindist <= thresholdDistOverlappingCandidates
                 % straight association of two legs to a person
                 idxToKill = find(possibleLegsAssociation(:,1)==legTrack1 | possibleLegsAssociation(:,1)==legTrack2 | possibleLegsAssociation(:,2)==legTrack1 | possibleLegsAssociation(:,2)==legTrack2);
@@ -316,7 +316,7 @@ for i=1:size(possibleNewPeopleLegsAssociation,1)
     else
         candidate1 = candidates(idxCandidate1);
         candidate2 = candidates(idxCandidate2);
-        [possibleNewPeopleLegDistances(i),~,~] = minDist(candidate1.allPoints,candidate2.allPoints,thresholdDist2LegsNewPeople);
+        possibleNewPeopleLegDistances(i) = minDist(candidate1.allPoints,candidate2.allPoints,candidate1.centroid,candidate2.centroid,thresholdDist2LegsNewPeople);
     end
 end
 
