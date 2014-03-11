@@ -145,7 +145,7 @@ if length(legTracks) > 1
     possibleLegsAssociation = nchoosek(1:length(legTracks),2);
     
     % remove too far associated leg Tracks
-    idxToKill = find(sqrt(sum(    (legCentroids(possibleLegsAssociation(:,1),:)-legCentroids(possibleLegsAssociation(:,2),:)).^2 ,2) ) > thresholdDist2LegsAssociation );
+    idxToKill = find(sum(    (legCentroids(possibleLegsAssociation(:,1),:)-legCentroids(possibleLegsAssociation(:,2),:)).^2 ,2)  > thresholdDist2LegsAssociation^2 );
     possibleLegsAssociation(idxToKill,:) = [];
     
     % remove more legs association containing already straight associated legs
