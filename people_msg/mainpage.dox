@@ -4,9 +4,34 @@
 
 \b people_msg 
 
-<!-- 
-Provide an overview of your package.
--->
+Message description:
+
+\verbatim
+uint8 numberOfPeople		# number of people detected in current scene
+uint32[] peopleID				# array of unique IDs of detected people
+float32[] x							# array of x-coordinates (in meter) of detected people expressed in the reference 	
+													frame Ws (see	below).
+float32[] y							# array of y-coordinates (in meter) of detected people expressed in the reference
+													frame Ws (see	below).
+float32[] vx						# array of x-velocities (in meter/second) of detected people which they have in the
+													fixed absolute system, expressed in the reference frame Ws. That is, the x-velocities
+													people have in the reference frame Ws, after having subtracted the movement of the
+													robot.
+float32[] vy						# array of y-velocities (in meter/second) of detected people which they have in the
+													fixed absolute system, expressed in the reference frame Ws. That is, the y-velocities
+													people have in the reference frame Ws, after having subtracted the movement of the
+													robot.
+\endverbatim
+
+Reference frame Ws:
+
+It is a 2D reference frame with the following characteristics:
+0) it lies on the floor plane;
+1) the origin coincides with the orthogonal projection of the sensor reference frame origin onto the floor plane;
+2) the y-axis is directed along the projection of the sensor optical axis onto the floor plane.
+3) the x-axis is directed in such a way that the angle between the x-axis and the y-axis, measured counter-clockwise, is 90 degrees.
+
+Note that reference frame Ws moves onto the floor plane accordingly to the sensor movements in 3D space.
 
 -->
 
