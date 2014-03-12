@@ -70,7 +70,19 @@ tracker.mirrored = false;
 % ROS topics
 rgbTopic = '/camera/rgb/image_raw'; % message type: sensor_msgs/Image encoding: yuv422
 depthTopic = '/camera/depth_registered/image_raw'; % message type: sensor_msgs/Image encoding: 16UC1
-odometryTopic = '/odom'; % message type: nav_msgs/Odometry
+odometryTopic = '/odom'; % topic for odometry
+odometryMsgType = 'nav_msgs/Odometry'; % message type: nav_msgs/Odometry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% stralETH configuration - uncomment the following lines when running on starlETH %%
+
+%tracker.upsideDown = true; % adjust the sensor upside-down
+%tracker.mirrored = true; % adjust the sensor upside-down
+%rgbTopic = '/rgb/image_raw'; % message type: sensor_msgs/Image encoding: yuv422
+%depthTopic = '/depth_registered/image_raw'; % message type: sensor_msgs/Image encoding: 16UC1
+%odometryTopic = '/starleth/robot_state/pose'; % topic for odometry
+%odometryMsgType = 'geometry_msgs/PoseWithCovarianceStamped'; % message type
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % record video of processed point cloud (at least one plot must be enabled)
 tracker.recordVideo = false;
@@ -358,7 +370,7 @@ elseif strcmp(sourceType,'ros')
     tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node, rgbTopic,'sensor_msgs/Image');
     
     if tracker.enableOdom 
-        tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node, odometryTopic,'nav_msgs/Odometry');
+        tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node, odometryTopic, odometryMsgType);
     end
     tracker.peoplePublisher = tracker.node.newPublisher('/people','people_msg/People');
     tracker.publish = @(people) publishROS(tracker, people);
