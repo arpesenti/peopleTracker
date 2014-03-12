@@ -122,7 +122,7 @@ for i=1:numPeopleTracks
         end
         leg1 = tracker.legTracks(leg1idx);
         people(i).legPositions(1,:) = (R*(leg1.prediction.x(1:2)-robotPosition))';
-        people(i).legVelocities(1,:) = leg1.prediction.x(3:4)';
+        people(i).legVelocities(1,:) = (R*leg1.prediction.x(3:4))';
     else
         % no first leg associated
         people(i).legPositions(1,:) = [];
@@ -136,7 +136,7 @@ for i=1:numPeopleTracks
         end
         leg2 = tracker.legTracks(leg2idx);
         people(i).legPositions(end,:) = (R*(leg2.prediction.x(1:2)-robotPosition))';
-        people(i).legVelocities(end,:) = leg2.prediction.x(3:4)';
+        people(i).legVelocities(end,:) = (R*leg2.prediction.x(3:4))';
     else
         % no second leg associated
         people(i).legPositions(end,:) = [];
