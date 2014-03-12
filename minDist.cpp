@@ -2,6 +2,7 @@
 #include "matrix.h"
 #include <math.h>
 #include <omp.h>
+#include <stdint.h>
 
 #define MAX_THREAD 32
 #define DIST_SHRINK 20 //mm

@@ -2,11 +2,9 @@
 #include "matrix.h"
 #include <math.h>
 #include <cstring>
-#include <map>
 #include <unordered_map>
 #include <omp.h>
-#include <ctime>
-#include <chrono>
+#include <stdint.h>
 
 #define MAX_THREAD 32
 
