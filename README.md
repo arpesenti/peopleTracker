@@ -13,18 +13,16 @@ Bibtex:
 >@incollection{pesentigritti2014a,  
 >  booktitle={Proc. International Conference on Intelligent Robots and Systems (IROS) 2014},  
 >  title={Kinect-based People Detection and Tracking from Small-Footprint Ground Robots},  
->  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}  
->}
+>  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}}
 
-**Video: Perceiving People from a Low-Lying Viewpoint**
+**Video: Perceiving People from a Low-Lying Viewpoint**  
 A. Pesenti Gritti, O. Tarabini, A. Giusti, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella  
 In Proc. Human Robot Interaction (HRI) 2014.  
 Bibtex:  
 >@incollection{pesentigritti2014b,  
 >  booktitle={Proc. Human Robot Interaction (HRI) 2014},  
 >  title={Video: Perceiving People from a Low-lying Viewpoint},  
->  author={Armando Pesenti Gritti and Oscar Tarabini and Alessandro Giusti and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella}  
->}
+>  author={Armando Pesenti Gritti and Oscar Tarabini and Alessandro Giusti and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella}}
 
 # Getting Started
 The system is implemented in MATLAB, with the most computationally expensive tasks written as mex functions able to exploit multi-core CPUs thanks to OpenMP support.
