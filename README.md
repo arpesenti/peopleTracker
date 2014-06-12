@@ -6,7 +6,7 @@ Small-footprint mobile ground robots, such as the popular [Turtlebot](http://www
 # Publications
 Please refer to the following publications describing our system.
 
-** Kinect-based People Detection and Tracking from Small-Footprint Ground Robots **
+**Kinect-based People Detection and Tracking from Small-Footprint Ground Robots**
 A. Pesenti Gritti, O. Tarabini, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella, A. Giusti
 In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014.
 Bibtex:
