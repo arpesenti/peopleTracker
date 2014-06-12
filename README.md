@@ -6,9 +6,9 @@ Small-footprint mobile ground robots, such as the popular [Turtlebot](http://www
 # Publications
 Please refer to the following publications describing our system.
 
-**Kinect-based People Detection and Tracking from Small-Footprint Ground Robots**
-A. Pesenti Gritti, O. Tarabini, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella, A. Giusti
-In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014.
+**Kinect-based People Detection and Tracking from Small-Footprint Ground Robots**  
+A. Pesenti Gritti, O. Tarabini, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella, A. Giusti  
+In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014.  
 Bibtex:
 >@incollection{pesentigritti2014a,
 >  booktitle={Proc. International Conference on Intelligent Robots and Systems (IROS) 2014},
@@ -16,7 +16,7 @@ Bibtex:
 >  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}
 >}
 
-** Video: Perceiving People from a Low-Lying Viewpoint **
+**Video: Perceiving People from a Low-Lying Viewpoint**
 A. Pesenti Gritti, O. Tarabini, A. Giusti, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella
 In Proc. Human Robot Interaction (HRI) 2014.
 Bibtex:
