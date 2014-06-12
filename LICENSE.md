@@ -14,6 +14,16 @@
 > with this program; if not, write to the Free Software Foundation, Inc.,
 > 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+If you use this software for research purposes, please cite:
+
+**Kinect-based People Detection and Tracking from Small-Footprint Ground Robots**  
+A. Pesenti Gritti, O. Tarabini, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella, A. Giusti  
+In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014. [\[preprint PDF\]](http://www.idsia.ch/~giusti/perceivingpeople/iros2014.pdf)  
+Bibtex:
+>@incollection{pesentigritti2014a,  
+>  booktitle={Proc. International Conference on Intelligent Robots and Systems (IROS) 2014},  
+>  title={Kinect-based People Detection and Tracking from Small-Footprint Ground Robots},  
+>  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}}
 
 External libraries:
 - [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm/)
