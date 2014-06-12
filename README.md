@@ -3,6 +3,29 @@
 
 Small-footprint mobile ground robots, such as the popular [Turtlebot](http://www.turtlebot.com) and [Kobuki](http://kobuki.yujinrobot.com) platforms, are by necessity equipped with sensors which lie close to the ground. Reliably detecting and tracking people from this viewpoint is a challenging problem, whose solution is a key requirement for many applications involving sharing of common spaces and close human-robot interaction. Here you can find a robust solution for cluttered indoor environments, using an inexpensive RGB-D sensor such as the Microsoft Kinect or Asus Xtion. A MATLAB real-time ROS-enabled implementation is available on this git repository.
 
+# Publications
+Please refer to the following publications describing our system.
+
+** Kinect-based People Detection and Tracking from Small-Footprint Ground Robots **
+A. Pesenti Gritti, O. Tarabini, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella, A. Giusti
+In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014.
+Bibtex:
+>@incollection{pesentigritti2014a,
+>  booktitle={Proc. International Conference on Intelligent Robots and Systems (IROS) 2014},
+>  title={Kinect-based People Detection and Tracking from Small-Footprint Ground Robots},
+>  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}
+>}
+
+** Video: Perceiving People from a Low-Lying Viewpoint **
+A. Pesenti Gritti, O. Tarabini, A. Giusti, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella
+In Proc. Human Robot Interaction (HRI) 2014.
+Bibtex:
+>@incollection{pesentigritti2014b,
+>  booktitle={Proc. Human Robot Interaction (HRI) 2014},
+>  title={Video: Perceiving People from a Low-lying Viewpoint},
+>  author={Armando Pesenti Gritti and Oscar Tarabini and Alessandro Giusti and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella}
+>}
+
 # Getting Started
 The system is implemented in MATLAB, with the most computationally expensive tasks written as mex functions able to exploit multi-core CPUs thanks to OpenMP support.
 
