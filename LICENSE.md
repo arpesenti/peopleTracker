@@ -23,7 +23,8 @@ Bibtex:
 >@incollection{pesentigritti2014a,  
 >  booktitle={Proc. International Conference on Intelligent Robots and Systems (IROS) 2014},  
 >  title={Kinect-based People Detection and Tracking from Small-Footprint Ground Robots},  
->  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}}
+>  author={Armando Pesenti Gritti and Oscar Tarabini and Jerome Guzzi and Gianni A. Di Caro and Vincenzo Caglioti and Luca M. Gambardella and Alessandro Giusti}  
+>}
 
 External libraries:
 - [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm/)
