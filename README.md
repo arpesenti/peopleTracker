@@ -8,7 +8,7 @@ Please refer to the following publications describing our system.
 
 **Kinect-based People Detection and Tracking from Small-Footprint Ground Robots**  
 A. Pesenti Gritti, O. Tarabini, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella, A. Giusti  
-In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014.  
+In Proc. International Conference on Intelligent Robots and Systems (IROS) 2014. [\[preprint PDF\]](http://www.idsia.ch/~giusti/perceivingpeople/iros2014.pdf)  
 Bibtex:
 >@incollection{pesentigritti2014a,  
 >  booktitle={Proc. International Conference on Intelligent Robots and Systems (IROS) 2014},  
@@ -17,7 +17,7 @@ Bibtex:
 
 **Video: Perceiving People from a Low-Lying Viewpoint**  
 A. Pesenti Gritti, O. Tarabini, A. Giusti, J. Guzzi, G. A. Di Caro, V. Caglioti, L. M. Gambardella  
-In Proc. Human Robot Interaction (HRI) 2014.  
+In Proc. Human Robot Interaction (HRI) 2014. [\[1-page abstract PDF (preprint)\]](http://www.idsia.ch/~giusti/perceivingpeople/hri2014.pdf)  
 Bibtex:  
 >@incollection{pesentigritti2014b,  
 >  booktitle={Proc. Human Robot Interaction (HRI) 2014},  
