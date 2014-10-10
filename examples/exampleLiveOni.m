@@ -9,7 +9,7 @@ enablePlotMap = true; % plot of 2D map top-view
 sourceType = 'oniLive';
 numberFrameToProcess = 300; % number of frames to process, then stop
 
-tracker = setupTracker(sourceType, [], enablePlotPhoto, enablePlotMap);
+tracker = setupTracker(sourceType, '../openni/SensorConfig.xml', enablePlotPhoto, enablePlotMap);
 
 for i=1:numberFrameToProcess
      % update tracking with current frame information

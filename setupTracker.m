@@ -399,8 +399,7 @@ elseif strcmp(sourceType,'ros')
     tracker.update = @(tracker) updateFromRos(tracker);
 elseif strcmp(sourceType,'oniLive')
     % initialize OpenNI context for live video
-    CONFIG_XML_PATH='openni/SensorConfig.xml';
-    tracker.sensorHandle = mxNiCreateContext(CONFIG_XML_PATH);
+    tracker.sensorHandle = mxNiCreateContext(uri);
     tracker.update = @(tracker) updateFromOniLive(tracker.sensorHandle, tracker);
 else
     error('Invalid source type. Supported types are oni, ros and oniLive. See setupTracker documentation.');
