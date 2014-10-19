@@ -389,7 +389,10 @@ elseif strcmp(sourceType,'ros')
     run([libraryPath '/ros_matlab_bridge/jmb_init']);
     tracker.node = jmb_init_node('PeopleTracker', uri);
     tracker.depthSubscriber = edu.ucsd.SubscriberAdapter(tracker.node, depthTopic,'sensor_msgs/Image');
-    tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node, rgbTopic,'sensor_msgs/Image');
+    
+    if tracker.enablePlotPhoto
+        tracker.rgbSubscriber = edu.ucsd.SubscriberAdapter(tracker.node, rgbTopic,'sensor_msgs/Image');
+    end
     
     if tracker.enableOdom 
         tracker.odometrySubscriber = edu.ucsd.SubscriberAdapter(tracker.node, odometryTopic, odometryMsgType);
