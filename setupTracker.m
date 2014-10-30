@@ -332,7 +332,7 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
         depth(isnan(depth)) = 0;
         depth = cast(depth.*1000, 'uint16');
     else
-        error(['Unknown image encoding: ' rgbMessage.encoding]);
+        error(['Unknown image encoding: ' depthMessage.encoding]);
     end
 
     if tracker.upsideDown
