@@ -321,11 +321,19 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
     end
 
    
-    % decode 16UC1 depth   
+    % decode 16UC1 depth
     w = depthMessage.width;
     h = depthMessage.height;
     depth = typecast(depthMessage.data, 'uint8');
-    depth = reshape(bitor(cast(depth(1:2:end), 'uint16'), bitshift(cast(depth(2:2:end), 'uint16'),8)), w,h)';
+    if strcmp(depthMessage.encoding, '16UC1')
+        depth = reshape(bitor(cast(depth(1:2:end), 'uint16'), bitshift(cast(depth(2:2:end), 'uint16'),8)), w,h)';
+    elseif strcmp(depthMessage.encoding, '32FC1')
+        depth = reshape(typecast(bitor(bitor(bitor(cast(depth(1:4:end), 'uint32'), bitshift(cast(depth(2:4:end), 'uint32'),8)), bitshift(cast(depth(3:4:end), 'uint32'),16)), bitshift(cast(depth(4:4:end), 'uint32'),24)), 'single'), w,h)';
+        depth(isnan(depth)) = 0;
+        depth = cast(depth.*1000, 'uint16');
+    else
+        error(['Unknown image encoding: ' rgbMessage.encoding]);
+    end
 
     if tracker.upsideDown
         depth = depth(end:-1:1,:);
