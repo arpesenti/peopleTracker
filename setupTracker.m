@@ -274,38 +274,41 @@ function [depth, rgb, tracker] = updateFromRos(tracker)
             end
         end
      
-%         % rgb jpeg decompression
-%         jImg = javax.imageio.ImageIO.read(java.io.ByteArrayInputStream(typecast(rgbMessage.data,'uint8')));
-%         h = jImg.getHeight;
-%         w = jImg.getWidth;
-%         p = reshape(typecast(jImg.getData.getDataStorage, 'uint8'), [1,w,h]);
-%                 
-%         % demosaic of Bayer GRBG encoded image
-%         rgb = demosaic(transpose(reshape(p(1,:,:), [w,h])), 'grbg');
-
          w = rgbMessage.width;
          h = rgbMessage.height;
          
-         % from yuv422 to rgb
-         temp = zeros(w*h,3,'uint8');
-         temp(:,1) = typecast(rgbMessage.data(2:2:end),'uint8');
-         temp(1:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
-         temp(2:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
-         temp(1:2:end,3) = typecast(rgbMessage.data(3:4:end),'uint8');
-         temp(2:2:end,3) = typecast(rgbMessage.data(3:4:end),'uint8');
+         if strcmp(rgbMessage.encoding, 'yuv422')
+             temp = zeros(w*h,3,'uint8');
+             temp(:,1) = typecast(rgbMessage.data(2:2:end),'uint8');
+             temp(1:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
+             temp(2:2:end,2) = typecast(rgbMessage.data(1:4:end),'uint8');
+             temp(1:2:end,3) = typecast(rgbMessage.data(3:4:end),'uint8');
+             temp(2:2:end,3) = typecast(rgbMessage.data(3:4:end),'uint8');
+
+             yuvTorgb = [1 0 1.13983; 1 -0.39465 -0.58060; 1 2.03211 0]'; 
+             temp = cast(temp,'double');
+             temp(:,[2 3]) = temp(:,[2 3]) - 128;
+             temp = temp * yuvTorgb ;
+             temp = cast(temp, 'uint8');
+             rgb = cat(3,reshape(temp(:,1), [w h])', reshape(temp(:,2),[w h])', reshape(temp(:,3),[w h])');
+         elseif strcmp(rgbMessage.encoding, 'bgr8')
+             rgb = cat(3,reshape(typecast(rgbMessage.data(3:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(2:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(1:3:end),'uint8'),[w,h])');
+         elseif strcmp(rgbMessage.encoding, 'rgb8')
+             rgb = cat(3,reshape(typecast(rgbMessage.data(1:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(2:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(3:3:end),'uint8'),[w,h])');
+         else
+             error(['Unknown image encoding: ' rgbMessage.encoding]);
+         end
          
-         yuvTorgb = [1 0 1.13983; 1 -0.39465 -0.58060; 1 2.03211 0]'; 
-         temp = cast(temp,'double');
-         temp(:,[2 3]) = temp(:,[2 3]) - 128;
-         temp = temp * yuvTorgb ;
-         temp = cast(temp, 'uint8');
-         rgb = cat(3,reshape(temp(:,1), [w h])', reshape(temp(:,2),[w h])', reshape(temp(:,3),[w h])');
+         % --- rgb compressed as jpeg --- 
+         % jImg = javax.imageio.ImageIO.read(java.io.ByteArrayInputStream(typecast(rgbMessage.data,'uint8')));
+         % h = jImg.getHeight;
+         % w = jImg.getWidth;
+         % p = reshape(typecast(jImg.getData.getDataStorage, 'uint8'), [1,w,h]);                
+         % % demosaic of Bayer GRBG encoded image
+         % rgb = demosaic(transpose(reshape(p(1,:,:), [w,h])), 'grbg');
+         % ---------------------------------------
+
          
-         
-         % decode bgr8 encoding 8UC3 image
-         %rgb = cat(3,reshape(typecast(rgbMessage.data(3:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(2:3:end),'uint8'),[w h])', reshape(typecast(rgbMessage.data(1:3:end),'uint8'),[w,h])');
- 
-       
     else
         rgb = [];
         while isempty(depthMessage) 
