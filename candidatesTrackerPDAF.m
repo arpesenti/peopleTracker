@@ -131,7 +131,7 @@ for i=1:length(candidates)
     distanceToOtherCandidates(i) = Inf;
     if min(minDistanceMatrix) > distanceThresholdForNewTrackCreation && min(distanceToOtherCandidates) > distanceThresholdToOtherCandidates && probEstimates(i)>probThresholdNewCreation
       % create a new leg track
-      newTrack.prediction = KFinitialize(centroids(i,:)',probEstimates(i));
+      newTrack.prediction = KFinitialize(centroids(i,:)',probEstimates(i)*2-1);
       measures = [centroids(i,:) ,probEstimates(i)*2-1];
       [newTrack.prediction, ~, ~] = PDAFupdate(newTrack.prediction, measures, sigmaZ,sigmaP);
       newTrack.lastSeen = 0;
